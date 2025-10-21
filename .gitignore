@@ -1,0 +1,122 @@
+# -------------------------
+# Node + TypeScript Backend
+# -------------------------
+
+# Dependency directories
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+.yarnrc
+package-lock.json
+yarn.lock
+
+# Build output
+dist/
+build/
+coverage/
+out/
+tmp/
+temp/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.example
+
+# Local configuration files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+logs/
+debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / Editor junk
+*.orig
+*.rej
+*.sublime-project
+*.sublime-workspace
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Build caches
+.cache/
+.eslintcache
+.nodemonignore
+
+# Test results
+coverage/
+jest/
+*.spec.ts
+*.test.ts
+reports/
+
+# Uploads and media
+uploads/
+public/uploads/
+tmp_uploads/
+media/
+storage/
+*.mp4
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# SSL / certificates
+certs/
+*.pem
+*.key
+*.crt
+
+# Logs and backups
+*.log
+*.bak
+*.gz
+*.zip
+
+# Docker / container
+Dockerfile.local
+docker-compose.yml
+.docker/
+*.pid
+*.seed
+*.data
+
+# -------------------------
+# Framework-specific
+# -------------------------
+# Prisma (if you ever use it)
+prisma/dev.db
+prisma/migrations/
+
+# -------------------------
+# Environment Secrets
+# -------------------------
+.env
+.env.*
+*.secret
+*.token
+
+# -------------------------
+# Render / Deploy Files
+# -------------------------
+# keep only render.yaml in repo
+render-debug.log
+render-build.log
+render-error.log
