@@ -4,8 +4,10 @@ import TripLog from "../models/TripLog.model";
 import Alert from "../models/Alert.model";
 import Feedback from "../models/Feedback.model";
 
-
-/**  GET /api/analytics/overview */
+/** -----------------------------
+ *  GET /api/analytics/overview
+ *  Summary of all key stats
+ *  ----------------------------- */
 export const getFleetOverview = async (req: Request, res: Response) => {
   try {
     const [totalBuses, activeBuses, totalDrivers, totalTrips, totalAlerts] = await Promise.all([
@@ -35,7 +37,10 @@ export const getFleetOverview = async (req: Request, res: Response) => {
   }
 };
 
-/**  GET /api/analytics/bus/:id */
+/** -----------------------------
+ *  GET /api/analytics/bus/:id
+ *  Bus-specific performance
+ *  ----------------------------- */
 export const getBusAnalytics = async (req: Request, res: Response) => {
   try {
     const busId = req.params.id;
@@ -68,12 +73,13 @@ export const getBusAnalytics = async (req: Request, res: Response) => {
   }
 };
 
-/**  GET /api/analytics/driver/:id */
+/** -----------------------------
+ *  GET /api/analytics/driver/:id
+ *  Driver performance analytics
+ *  ----------------------------- */
 export const getDriverAnalytics = async (req: Request, res: Response) => {
   try {
     const driverId = req.params.id;
-
-    // Find all buses driven by this driver
     const buses = await Bus.find({ "driver._id": driverId });
     const busIds = buses.map((b) => b._id);
 
@@ -102,7 +108,10 @@ export const getDriverAnalytics = async (req: Request, res: Response) => {
   }
 };
 
-/**  GET /api/analytics/routes */
+/** -----------------------------
+ *  GET /api/analytics/routes
+ *  Route-level statistics
+ *  ----------------------------- */
 export const getRouteAnalytics = async (req: Request, res: Response) => {
   try {
     const routeStats = await TripLog.aggregate([
@@ -131,7 +140,10 @@ export const getRouteAnalytics = async (req: Request, res: Response) => {
   }
 };
 
-/**  GET /api/analytics/alerts */
+/** -----------------------------
+ *  GET /api/analytics/alerts
+ *  Alert trend analysis
+ *  ----------------------------- */
 export const getAlertTrends = async (req: Request, res: Response) => {
   try {
     const alertTrends = await Alert.aggregate([
@@ -149,7 +161,10 @@ export const getAlertTrends = async (req: Request, res: Response) => {
   }
 };
 
-/**  GET /api/analytics/feedback */
+/** -----------------------------
+ *  GET /api/analytics/feedback
+ *  Rating & complaint analytics
+ *  ----------------------------- */
 export const getFeedbackAnalytics = async (req: Request, res: Response) => {
   try {
     const ratings = await Feedback.aggregate([
@@ -173,7 +188,10 @@ export const getFeedbackAnalytics = async (req: Request, res: Response) => {
   }
 };
 
-/**  GET /api/analytics/timeseries?days=7 */
+/** -----------------------------
+ *  GET /api/analytics/timeseries?days=7
+ *  Fleet usage trends over time
+ *  ----------------------------- */
 export const getFleetTimeseries = async (req: Request, res: Response) => {
   try {
     const days = parseInt(req.query.days as string) || 7;

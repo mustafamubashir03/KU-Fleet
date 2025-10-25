@@ -9,6 +9,9 @@ import {
   deleteBus,
   assignDriver,
   unassignDriver,
+  getBusLocation,
+  updateBusLocation,
+  getAllBusLocations,
 } from "../controllers/busController";
 import { adminOnly, protect } from "../middleware/AuthMiddleware";
 
@@ -26,5 +29,10 @@ router.delete("/:id", protect, adminOnly, deleteBus);
 // Driver assignment routes
 router.post("/assign-driver", protect, adminOnly, assignDriver);
 router.post("/unassign-driver", protect, adminOnly, unassignDriver);
+
+// Location routes
+router.get("/locations/all", protect, getAllBusLocations);
+router.get("/:id/location", protect, getBusLocation);
+router.put("/:id/location", protect, updateBusLocation);
 
 export default router;

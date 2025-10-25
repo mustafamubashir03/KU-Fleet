@@ -1,0 +1,452 @@
+{
+  "info": {
+    "name": "KU Fleet API",
+    "description": "Complete API collection for KU Fleet Tracking & Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"driver\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Buses",
+      "item": [
+        {
+          "name": "Get All Buses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/buses",
+              "host": ["{{baseUrl}}"],
+              "path": ["buses"]
+            }
+          }
+        },
+        {
+          "name": "Get Bus by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/buses/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["buses", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "bus_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Bus Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/buses/:id/location",
+              "host": ["{{baseUrl}}"],
+              "path": ["buses", ":id", "location"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "bus_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Bus Location",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coordinates\": {\n    \"lat\": 40.7128,\n    \"lng\": -74.0060\n  },\n  \"speed\": 45,\n  \"timestamp\": \"2024-01-01T12:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/buses/:id/location",
+              "host": ["{{baseUrl}}"],
+              "path": ["buses", ":id", "location"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "bus_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Bus Locations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/buses/locations/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["buses", "locations", "all"]
+            }
+          }
+        },
+        {
+          "name": "Create Bus",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"busNumber\": \"BUS001\",\n  \"busNumberPlate\": \"ABC-123\",\n  \"capacity\": 50,\n  \"routeId\": \"route_id_here\",\n  \"driverId\": \"driver_id_here\",\n  \"trackerIMEI\": \"123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/buses",
+              "host": ["{{baseUrl}}"],
+              "path": ["buses"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {
+          "name": "Get All Alerts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alerts",
+              "host": ["{{baseUrl}}"],
+              "path": ["alerts"]
+            }
+          }
+        },
+        {
+          "name": "Get Alert by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alerts/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["alerts", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "alert_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Alert",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"busId\": \"bus_id_here\",\n  \"type\": \"overspeed\",\n  \"message\": \"Bus exceeded speed limit\",\n  \"priority\": \"high\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/alerts",
+              "host": ["{{baseUrl}}"],
+              "path": ["alerts"]
+            }
+          }
+        },
+        {
+          "name": "Resolve Alert",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alerts/:id/resolve",
+              "host": ["{{baseUrl}}"],
+              "path": ["alerts", ":id", "resolve"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "alert_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Alert Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alerts/stats?days=7",
+              "host": ["{{baseUrl}}"],
+              "path": ["alerts", "stats"],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "7"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trips",
+      "item": [
+        {
+          "name": "Get All Trips",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tripLogs",
+              "host": ["{{baseUrl}}"],
+              "path": ["tripLogs"]
+            }
+          }
+        },
+        {
+          "name": "Start Trip",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"busId\": \"bus_id_here\",\n  \"routeId\": \"route_id_here\",\n  \"startCoordinates\": {\n    \"lat\": 40.7128,\n    \"lng\": -74.0060\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tripLogs",
+              "host": ["{{baseUrl}}"],
+              "path": ["tripLogs"]
+            }
+          }
+        },
+        {
+          "name": "End Trip",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"endCoordinates\": {\n    \"lat\": 40.7589,\n    \"lng\": -73.9851\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tripLogs/:id/end",
+              "host": ["{{baseUrl}}"],
+              "path": ["tripLogs", ":id", "end"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Feedback",
+      "item": [
+        {
+          "name": "Get All Feedback",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": ["{{baseUrl}}"],
+              "path": ["feedback"]
+            }
+          }
+        },
+        {
+          "name": "Submit Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"busId\": \"bus_id_here\",\n  \"rating\": 4,\n  \"comment\": \"Good service\",\n  \"type\": \"complaint\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": ["{{baseUrl}}"],
+              "path": ["feedback"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Upload",
+      "item": [
+        {
+          "name": "Upload Driver Photo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/driver/:userId",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "driver", ":userId"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "user_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Bus Photo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/bus/:busId",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "bus", ":busId"],
+              "variable": [
+                {
+                  "key": "busId",
+                  "value": "bus_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

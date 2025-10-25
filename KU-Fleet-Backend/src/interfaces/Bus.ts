@@ -3,6 +3,7 @@ import { Document, Types } from "mongoose";
 export interface IBus extends Document {
   busNumber: string;
   busNumberPlate: string;
+  plateNumber: string;
   capacity: number;
   driver?: Types.ObjectId;
   route?: Types.ObjectId;
@@ -14,5 +15,13 @@ export interface IBus extends Document {
     speed: number;
     timestamp: Date;
   };
-  photo?: string;
+  lastLocation?: {
+    lat: number;
+    lng: number;
+  };
+  lastUpdate?: Date;
+  photo?: {
+    url: string;
+    publicId: string;
+  };
 }

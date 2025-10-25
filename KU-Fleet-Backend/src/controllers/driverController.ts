@@ -29,52 +29,131 @@ export const getDriverById = async (req: Request, res: Response) => {
   }
 };
 
-// ✅ POST /api/drivers — Create new driver
+
+/** ✅ Register a new driver (admin-only) */
 export const createDriver = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, contactInfo } = req.body;
-    const existing = await User.findOne({ email });
-    if (existing) return res.status(400).json({ message: "Driver already exists" });
+    const {
+      name,
+      email,
+      phone,
+      cnic,
+      licenseNumber,
+      licenseImage,
+      photo,
+      age,
+      experienceYears,
+      assignedBusId,
+      remarks,
+    } = req.body;
 
-    const hashed = await bcrypt.hash(password, 10);
+    if (!name || !email || !licenseNumber)
+      return res.status(400).json({ message: "Name, email and license number are required" });
+
+    // Prevent duplicates
+    const existing = await User.findOne({ email });
+    if (existing)
+      return res.status(400).json({ message: "Driver already exists with this email" });
+
+    // Auto-generate password
+    const hashedPassword = await bcrypt.hash("Driver@123", 10);
+
     const driver = await User.create({
       name,
       email,
-      password: hashed,
+      phone,
+      cnic,
+      licenseNumber,
+      licenseImage,
+      photo,
+      age,
+      experienceYears,
+      remarks,
       role: "driver",
-      active: true,
+      password: hashedPassword,
+      assignedBus: assignedBusId || null,
+      status: "active",
     });
 
-    // Optionally, also create driver info in bus schema later
-    res.status(201).json({ message: "Driver created successfully", driver });
+    // Assign to bus if provided
+    if (assignedBusId) {
+      await Bus.findByIdAndUpdate(assignedBusId, { driver: driver._id });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Driver registered successfully",
+      driver,
+    });
   } catch (error) {
-    res.status(400).json({ message: "Failed to create driver", error });
+    console.error("Error registering driver:", error);
+    res.status(500).json({ message: "Failed to register driver", error });
   }
 };
+
 
 // ✅ PATCH /api/drivers/:id — Update driver info
 export const updateDriver = async (req: Request, res: Response) => {
   try {
-    const { name, email, contactInfo, active } = req.body;
-    const updated = await User.findByIdAndUpdate(
-      req.params.id,
-      { name, email, active },
-      { new: true }
-    ).select("-password");
+    const { id } = req.params;
+    const {
+      name,
+      phone,
+      cnic,
+      licenseNumber,
+      licenseImage,
+      photo,
+      age,
+      experienceYears,
+      assignedBusId,
+      status,
+      remarks,
+    } = req.body;
 
-    if (!updated || updated.role !== "driver")
+    const driver = await User.findById(id);
+    if (!driver || driver.role !== "driver")
       return res.status(404).json({ message: "Driver not found" });
 
-    res.status(200).json(updated);
+    // Update fields conditionally
+    if (name) driver.name = name;
+    if (phone) driver.phone = phone;
+    if (cnic) driver.cnic = cnic;
+    if (licenseNumber) driver.licenseNumber = licenseNumber;
+    if (licenseImage) driver.licenseImage = licenseImage;
+    if (photo) driver.photo = photo;
+    if (age) driver.age = age;
+    if (experienceYears) driver.experienceYears = experienceYears;
+    if (status) driver.status = status;
+    if (remarks) driver.remarks = remarks;
+
+    // ✅ Handle bus reassignment
+    if (assignedBusId && assignedBusId !== String(driver.assignedBus)) {
+      // Remove old assignment if any
+      if (driver.assignedBus) {
+        await Bus.findByIdAndUpdate(driver.assignedBus, { $unset: { driver: 1 } });
+      }
+      // Assign to new bus
+      await Bus.findByIdAndUpdate(assignedBusId, { driver: driver._id });
+      driver.assignedBus = assignedBusId;
+    }
+
+    await driver.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Driver updated successfully",
+      driver,
+    });
   } catch (error) {
-    res.status(400).json({ message: "Failed to update driver", error });
+    console.error("Error updating driver:", error);
+    res.status(500).json({ message: "Failed to update driver", error });
   }
 };
 
 // ✅ DELETE /api/drivers/:id — Deactivate driver
 export const deactivateDriver = async (req: Request, res: Response) => {
   try {
-    const driver = await User.findByIdAndUpdate(req.params.id, { active: false }, { new: true });
+    const driver = await User.findByIdAndUpdate(req.params.id, { status: "inactive" }, { new: true });
     if (!driver || driver.role !== "driver")
       return res.status(404).json({ message: "Driver not found" });
 
