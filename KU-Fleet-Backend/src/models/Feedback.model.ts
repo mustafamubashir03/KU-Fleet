@@ -23,7 +23,7 @@ const feedbackSchema = new Schema<IFeedback>(
     driver: { type: Schema.Types.ObjectId, ref: "User" },
     trip: { type: Schema.Types.ObjectId, ref: "TripLog" },
     rfidLog: { type: Schema.Types.ObjectId, ref: "RFIDLog" },
-    rating: { type: Number, min: 1, max: 5, default: 3 },
+    rating: { type: Number, min: 1, max: 5, default: 3 },  
     comment: { type: String, trim: true, maxlength: 500 },
     type: {
       type: String,

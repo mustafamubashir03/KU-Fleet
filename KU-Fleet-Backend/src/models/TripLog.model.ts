@@ -13,6 +13,7 @@ export interface ITripLog extends Document {
     timestamp?: Date;
   }[];
   distance?: number;
+  passengerCount: number,
   avgSpeed?: number;
   maxSpeed?: number;
   stopsCount?: number;
@@ -38,6 +39,7 @@ const tripLogSchema = new Schema<ITripLog>(
     avgSpeed: { type: Number, default: 0 },
     maxSpeed: { type: Number, default: 0 },
     stopsCount: { type: Number, default: 0 },
+    passengerCount: { type: Number, default: 0 },
     status: {
       type: String,
       enum: ["in_progress", "completed", "cancelled"],

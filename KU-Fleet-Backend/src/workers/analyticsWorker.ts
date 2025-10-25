@@ -64,7 +64,7 @@ export const analyticsWorker = new Worker("analyticsQueue", async (job) => {
       });
 
       const totalDistance = tripsToday.reduce((sum, trip) => {
-        return sum + (trip.totalDistance || 0);
+        return sum + (trip.distance || 0);
       }, 0);
 
       const alertsToday = await Alert.countDocuments({
@@ -79,7 +79,7 @@ export const analyticsWorker = new Worker("analyticsQueue", async (job) => {
         totalDistance,
         alertsCount: alertsToday,
         averageSpeed: tripsToday.length > 0 ? 
-          tripsToday.reduce((sum, trip) => sum + (trip.averageSpeed || 0), 0) / tripsToday.length : 0
+          tripsToday.reduce((sum, trip) => sum + (trip.avgSpeed || 0), 0) / tripsToday.length : 0
       };
 
       await cacheHelpers.setAnalyticsData(`bus:${busId}:${startOfDay.toISOString().split('T')[0]}`, analytics, 86400);
@@ -98,7 +98,7 @@ export const analyticsWorker = new Worker("analyticsQueue", async (job) => {
       }).populate("bus");
 
       const totalPassengers = routeTrips.reduce((sum, trip) => sum + (trip.passengerCount || 0), 0);
-      const totalDistance = routeTrips.reduce((sum, trip) => sum + (trip.totalDistance || 0), 0);
+      const totalDistance = routeTrips.reduce((sum, trip) => sum + (trip.distance || 0), 0);
 
       const analytics = {
         routeId,

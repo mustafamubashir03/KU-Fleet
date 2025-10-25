@@ -116,15 +116,15 @@ cron.schedule("*/5 * * * *", async () => {
     });
 
     // Alert if any queue has too many failed jobs
-    if (tripQueueHealth.failed > 10) {
+    if ((tripQueueHealth.failed ?? 0)> 10) {
       console.warn("⚠️ Trip queue has many failed jobs:", tripQueueHealth.failed);
     }
     
-    if (analyticsQueueHealth.failed > 5) {
+    if ((analyticsQueueHealth.failed ?? 0)> 5) {
       console.warn("⚠️ Analytics queue has many failed jobs:", analyticsQueueHealth.failed);
     }
     
-    if (cleanupQueueHealth.failed > 5) {
+    if ((cleanupQueueHealth.failed ?? 0)> 5) {
       console.warn("⚠️ Cleanup queue has many failed jobs:", cleanupQueueHealth.failed);
     }
   } catch (error) {
