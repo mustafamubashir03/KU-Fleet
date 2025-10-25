@@ -11,7 +11,7 @@ import { tripQueue } from "../workers/queue";
 export const getBuses = async (_req: Request, res: Response) => {
   try {
     const buses = await Bus.find()
-      .populate("route", "routeName")
+      .populate("route", "routeName stations")
       .populate("driver", "name email photo")
       .sort({ createdAt: -1 });
 
