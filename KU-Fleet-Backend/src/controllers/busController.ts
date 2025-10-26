@@ -51,9 +51,17 @@ export const getBusById = async (req: Request, res: Response) => {
 export const getBusesByStatus = async (req: Request, res: Response) => {
   try {
     const { status } = req.params;
-    const buses = await Bus.find({ status })
-      .populate("route", "routeName")
-      .populate("driver", "name");
+    const buses = await Bus.find({status})
+      .populate({
+        path: "route",
+        select: "routeName stations",
+        populate: {
+          path: "stations",
+          select: "stationName", // You can add more fields if needed
+        },
+      })
+      .populate("driver", "name email photo")
+      .sort({ createdAt: -1 });
 
     res.status(200).json({ success: true, count: buses.length, buses });
   } catch (error) {
