@@ -25,7 +25,6 @@ const busSchema = new Schema<IBus>(
       lng: Number,
     },
     lastUpdate: Date,
-    plateNumber: { type: String, required: true, unique: true },
     photo: {
       url: String,
       publicId: String,

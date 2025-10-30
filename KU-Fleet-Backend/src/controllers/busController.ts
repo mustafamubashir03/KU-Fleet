@@ -300,7 +300,7 @@ export const getAllBusLocations = async (req: Request, res: Response) => {
     if (status) filter.status = status;
     
     const buses = await Bus.find(filter)
-      .select("busNumber plateNumber lastLocation lastUpdate status")
+      .select("busNumber busNumberPlate lastLocation lastUpdate status")
       .populate("route", "routeName")
       .populate("driver", "name");
 
@@ -321,7 +321,7 @@ export const getAllBusLocations = async (req: Request, res: Response) => {
       locations.push({
         busId: bus._id,
         busNumber: bus.busNumber,
-        plateNumber: bus.busNumberPlate, // Use busNumberPlate instead of plateNumber
+        busNumberPlate: bus.busNumberPlate, // Use busNumberPlate instead of plateNumber
         route: bus.route,
         driver: bus.driver,
         location,

@@ -3,7 +3,6 @@ import { Document, Types } from "mongoose";
 export interface IBus extends Document {
   busNumber: string;
   busNumberPlate: string;
-  plateNumber: string;
   capacity: number;
   driver?: Types.ObjectId;
   route?: Types.ObjectId;
